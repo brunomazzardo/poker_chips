@@ -4,6 +4,7 @@ import CardButton from "../components/CardButton";
 import TextField from "../components/TextField";
 import * as firebase from 'firebase';
 import Modal from "react-native-modal";
+import CardView from "../components/CardView";
 
 const chips = [10,20,50,100]
 
@@ -94,7 +95,6 @@ export default class GameScreen extends React.Component {
             <ImageBackground source = {require('../images/poker-table-felt.jpg')} style={{flex:1,alignItems:'center',backgroundColor:'#2cb755'}}>
                 <Modal
                     isVisible={this.state.modal_open}
-                    presentationStyle={'pageSheet '}
                 >
                 <View  style = {styles.modal}>
                         <TextInput style = {{padding: 32}} placeholder = {"Bote o nome de seu jogador"}  onChangeText={(text) => this.setState({name:text})}/>
@@ -107,39 +107,41 @@ export default class GameScreen extends React.Component {
                         </TouchableHighlight>
                     </View>
                 </Modal>
-               <View style = {{flex:1/2,alignItems: 'center',justifyContent: 'center'}} >
+               <View style = {{flex:2/3,alignItems: 'center'}} >
                    <View style = {{paddingTop:24}}>
-                       <Text style = {styles.textStyle}>
-                           Suas fichas {this.state.amount_owned}
-                       </Text>
-                       <Text style = {styles.textStyle} >
-                           Total da aposta {this.state.total}
-                       </Text>
-                       <TextField textStyle = {styles.textStyle} field = {'Aposta total  '} value = {this.state.totalBet} />
-                       <ScrollView>
-                       {this.state.players_bet.map(bet=> <TextField  textStyle = {{color:'white'}} field = {'Aposta de ' + bet.bruno.player + '     '}  value = {bet.bruno.value} />)}
-                       </ScrollView>
+                       <CardView style = {{borderColor: 'white',borderWidth: 1,marginVertical:6}} >
+                           <TextField field = {'Suas fichas '}  value = {this.state.amount_owned} contentContainerStyle = {{justifyContent:'space-around',paddingVertical: 2}} textStyle = {styles.textStyle}/>
+                       </CardView>
+                       <CardView style = {{borderColor: 'white',borderWidth: 1,marginVertical: 6}} >
+                           <TextField field = {'Valor da sua aposta atual'}  value = {this.state.total} contentContainerStyle = {{justifyContent:'space-around',paddingVertical: 2}} textStyle = {styles.textStyle}/>
+                       </CardView>
+                       <CardView style = {{borderColor: 'white',borderWidth: 1,marginVertical: 6}} >
+                            <TextField  contentContainerStyle = {{justifyContent:'space-around',paddingVertical: 2}} textStyle = {styles.textStyle} field = {'Total da aposta  '} value = {this.state.totalBet} />
+                       </CardView>
+                       <CardView style = {{borderColor: 'white',borderWidth: 1,marginVertical: 6,height:'60%'}} >
+                           <ScrollView>
+                                {this.state.players_bet.map(bet=> <TextField   contentContainerStyle = {{justifyContent:'space-around',paddingVertical: 2}} textStyle = {styles.textStyle} field = {'Aposta de ' + bet.bruno.player}  value = {bet.bruno.value} />)}
+                           </ScrollView>
+                       </CardView>
                    </View>
                </View>
-                <View style = {{flex:2/2,justifyContent:'space-around'}} >
+                <View style = {{flex:2/3,justifyContent:'space-around'}} >
                     <View style = {{flexDirection: 'row',justifyContent:'space-around'}} >
                          <TouchableOpacity  onPress = {()=>this.setState((prevState)=> ({total : prevState.total + 10 }))}>
-                             <Image source={require('../images/chips20.png')} style = {{ width:100, height:100}}  resizeMethod={'fit'} />
+                             <Image source={require('../images/chips20.png')} style = {{ width:100, height:100}}  />
                          </TouchableOpacity>
                         <TouchableOpacity onPress = {()=>this.setState((prevState)=> ({total : prevState.total + 20 }))}>
-                            <Image source={require('../images/chips20.png')} style = {{ width:100, height:100}}   resizeMethod={'fit'} />
+                            <Image source={require('../images/chips20.png')} style = {{ width:100, height:100}}  />
                         </TouchableOpacity>
-                    </View>
-                    <View style = {{flexDirection: 'row',justifyContent:'space-around'}} >
                         <TouchableOpacity  onPress = {()=>this.setState((prevState)=> ({total : prevState.total + 50 }))}>
-                            <Image source={require('../images/chips50.png')} style = {{ width:100, height:100}}   resizeMethod={'fit'}  />
+                            <Image source={require('../images/chips50.png')} style = {{ width:100, height:100}}    />
                         </TouchableOpacity>
                         <TouchableOpacity viewStyle = {styles.container} onPress = {()=>this.setState((prevState)=> ({total : prevState.total + 100 }))}>
-                            <Image source={require('../images/chips100.png')} style = {{ width:100, height:100}}   resizeMethod={'fit'}  />
+                            <Image source={require('../images/chips100.png')} style = {{ width:100, height:100}}   />
                         </TouchableOpacity>
                     </View>
                     <CardButton text = {'Apostar'} viewStyle = {{alignSelf:'center',paddingBottom: 10,backgroundColor:'#177734'}}  textStyle = {{color:'white'}}   onPress = {()=>this.bet(this.state.total)} />
-                    <CardButton text = {'Limpar'}  viewStyle = {{alignSelf:'center',paddingBottom: 10,backgroundColor:'#177734'}}  textStyle = {{color:'white'}}  onPress = {()=>this.setState({total:0})} />
+                    <CardButton text = {'Limpar'}  viewStyle = {{alignSelf:'center',paddingBottom: 10,backgroundColor:'white'}}  textStyle = {{color:'#177734'}}  onPress = {()=>this.setState({total:0})} />
                     <CardButton text = {'Ganhei!'}  viewStyle = {{alignSelf:'center',paddingBottom: 10,backgroundColor:'#177734'}}  textStyle = {{color:'white'}}  onPress = {()=>this.clearBets()}   />
                 </View>
 
@@ -172,6 +174,6 @@ const styles = StyleSheet.create({
     },
     textStyle : {
         color:'white',
-        fontSize : 18
+        fontSize : 18,
     }
 });

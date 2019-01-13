@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: "column",
     alignItems: "stretch",
-    backgroundColor: "white",
     borderWidth: 0,
     borderRadius: 6,
     width: Dimensions.get("window").width * 0.8,
